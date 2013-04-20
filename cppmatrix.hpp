@@ -15,8 +15,8 @@
    ;         '       "       '     . ; .' ; ; ;
   ;     '         '       '   "    .'      .-'
   '  "     "   '      "           "    _.-'
- 
-	Gausscalculator by null_ptr
+
+  Matrixclass for cbdev matrix format by null_ptr
 */
 #pragma once
 
