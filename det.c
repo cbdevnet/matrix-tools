@@ -1,11 +1,11 @@
 #include <stdio.h>
-#include <stdbool.h>
 #include <string.h>
 #include <malloc.h>
+#include <stdlib.h>
 
 #include "vectors.c"
 
-double det(_MATRIX);
+double det(_MATRIX mx);
 
 int usage(){
 	printf("determinant Utility\n");
@@ -48,6 +48,7 @@ int main(int argc, char** argv){
 	
 	fclose(in);
 	freematrix(&mx);
+	return 0;
 }
 
 double det(_MATRIX mx) {
