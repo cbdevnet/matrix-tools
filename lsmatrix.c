@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <malloc.h>
+#include <stdlib.h>
 
 #include "vectors.c"
 
@@ -46,4 +47,5 @@ int main(int argc, char** argv){
 	freematrix(&mx);
 	
 	fclose(in);
+	return 0;
 }

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <malloc.h>
+#include <stdlib.h>
 
 #include "vectors.c"
 
@@ -87,7 +88,7 @@ int main(int argc, char** argv){
 	//TODO row mode
 	for(i=0;i<mx.header.height;i++){
 		for(c=0;c<mx.header.width;c++){
-			printf("%s[%d][%d]=",matrixName,i,c);
+			printf("%s[%ld][%ld]=",matrixName,i,c);
 			if(fgets(buf,sizeof(buf)-1,stdin)){
 				mx.data[i][c]=strtof(buf,NULL);
 			}
@@ -108,4 +109,5 @@ int main(int argc, char** argv){
 	}
 	
 	freematrix(&mx);
+	return 0;
 }

@@ -1,4 +1,5 @@
 #include <malloc.h>
+#include <string.h>
 #include "vectors.h"
 
 //TODO fix memory leaks on errors
