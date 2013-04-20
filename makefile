@@ -1,5 +1,5 @@
 all:
-	mkdir bin
+	mkdir -p bin
 	gcc -Wall -o bin/mkmatrix mkmatrix.c
 	gcc -Wall -o bin/lsmatrix lsmatrix.c
 	gcc -Wall -o bin/det det.c
