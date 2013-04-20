@@ -79,6 +79,7 @@ int main(int argc, char** argv){
 
 double det(_MATRIX mx) {
     if (mx.header.height == 2) {
+        printf("det = %.0lf\n", mx.data[0][0] * mx.data[1][1] - mx.data[0][1] * mx.data[1][0]);
         return mx.data[0][0] * mx.data[1][1] - mx.data[0][1] * mx.data[1][0];
     }
     if (mx.header.height == 1) {
@@ -86,7 +87,7 @@ double det(_MATRIX mx) {
     }
     
     unsigned long i, j, k, m, n;
-    double determinant = 0;
+    double determinant = 0, tmp = 0;
     _MATRIX new_mx;
     memcpy(new_mx.header.sig,"MATRIX\0\0",8);
     new_mx.data = NULL;
@@ -120,7 +121,19 @@ double det(_MATRIX mx) {
                 m++;
             }
         }
-        determinant += mx.data[i][0] * det(new_mx);
+        for (m = 0; m < new_mx.header.height; m++) {
+            for (n = 0; n < new_mx.header.width; n++) {
+                printf("%.0lf ", new_mx.data[m][n]);
+            }
+            printf("\n");
+        }
+        //tmp = det(new_mx);
+        if (i % 2 == 0) {
+            determinant += mx.data[i][0] * det(new_mx);
+        } else {
+            determinant -= mx.data[i][0] * det(new_mx);
+        }
+        printf("\n");
     }
     for(i=0;i<new_mx.header.height;i++){
 		free(new_mx.data[i]);
