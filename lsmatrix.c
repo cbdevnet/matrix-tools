@@ -15,8 +15,8 @@ int main(int argc, char** argv){
 	char buf[2048];
 	double* row;
 	_MATRIX mx;
-	unsigned long i;
-	unsigned long c;
+	uint32_t i;
+	uint32_t c;
 
 	if(argc>1){
 		if(argv[1][0]=='-'){

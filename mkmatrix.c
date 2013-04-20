@@ -38,7 +38,7 @@ int main(int argc, char** argv){
 			}
 			else{
 				printf("Out of memory.");
-				exit(9001);
+				exit(ERR_OUTOFMEM);
 			}
 		}
 		else{
@@ -73,7 +73,7 @@ int main(int argc, char** argv){
 	
 	if(mx.header.width<=0||mx.header.height<=0){
 		printf("Invalid dimensions.");
-		exit(9003);
+		exit(ERR_NOTAMATRIX);
 	}
 	
 	printf("Creating data fields for %s [%dx%d]\n",matrixName,mx.header.width,mx.header.height);
@@ -84,13 +84,13 @@ int main(int argc, char** argv){
 			mx.data[i]=malloc(mx.header.width*sizeof(double));
 			if(!mx.data[i]){
 				printf("Out of memory.");
-				exit(9004);
+				exit(ERR_OUTOFMEM);
 			}
 		}
 	}
 	else{
 		printf("Out of memory.");
-		exit(9005);
+		exit(ERR_OUTOFMEM);
 	}
 	
 	//single ask mode

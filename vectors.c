@@ -29,7 +29,7 @@ int readmatrix(FILE* infile, _MATRIX* mx){
 	return ERR_OK;
 }
 
-int freematrix(_MATRIX* mx){
+void freematrix(_MATRIX* mx){
 	uint32_t i;
 	for(i=0;i<mx->header.height;i++){
 		free(mx->data[i]);
