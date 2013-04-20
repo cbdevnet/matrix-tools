@@ -206,7 +206,7 @@ public:
 	
 	bool is_valid()
 	{
-		return !(memcmp(matrix.header.sig, MATRIX_MAGIC, sizeof(MATRIX_MAGIC)));
+		return !(memcmp(matrix.header.sig, MATRIX_MAGIC, sizeof(MATRIX_MAGIC)-1));
 	}
 private:
 	void shift_zeros_down()
