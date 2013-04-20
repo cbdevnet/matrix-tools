@@ -16,7 +16,7 @@
   ;     '         '       '   "    .'      .-'
   '  "     "   '      "           "    _.-'
  
-	Gausscalculator by null_ptr
+	Inversecalculator by null_ptr
 */
 #include "vectors.h"
 
