@@ -1,6 +1,7 @@
 #pragma once
-
 #include <stdint.h>
+
+#define MATRIX_MAGIC "MATRIX\0\0"
 
 typedef struct /*_MATRIX_HEADER*/{
 	int8_t sig[8];

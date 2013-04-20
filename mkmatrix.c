@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include <malloc.h>
 
-#include "vectors.h"
+#include "vectors.c"
 
 int usage(){
 	printf("mkmatrix Utility\n");
@@ -78,18 +78,8 @@ int main(int argc, char** argv){
 	
 	printf("Creating data fields for %s [%dx%d]\n",matrixName,mx.header.width,mx.header.height);
 	
-	mx.data=malloc(mx.header.height*sizeof(double*));
-	if(mx.data){
-		for(i=0;i<mx.header.height;i++){
-			mx.data[i]=malloc(mx.header.width*sizeof(double));
-			if(!mx.data[i]){
-				printf("Out of memory.");
-				exit(ERR_OUTOFMEM);
-			}
-		}
-	}
-	else{
-		printf("Out of memory.");
+	if(initmatrix(&mx)!=ERR_OK){
+		printf("Out of memory");
 		exit(ERR_OUTOFMEM);
 	}
 	
@@ -109,10 +99,7 @@ int main(int argc, char** argv){
 	}
 	
 	//write
-	fwrite(&mx.header,sizeof(MATRIX_HEADER),1,out);
-	for(i=0;i<mx.header.height;i++){
-		fwrite(mx.data[i],sizeof(double),mx.header.width,out);
-	}
+	writematrix(out,&mx);
 	
 	//cleanup
 	fclose(out);
@@ -120,8 +107,5 @@ int main(int argc, char** argv){
 		free(matrixName);
 	}
 	
-	for(i=0;i<mx.header.height;i++){
-		free(mx.data[i]);
-	}
-	free(mx.data);
+	freematrix(&mx);
 }

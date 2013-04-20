@@ -3,9 +3,10 @@
 
 //TODO fix memory leaks on errors
 //TODO add error checking
-//TODO writematrix
 
 int initmatrix(_MATRIX* mx){
+	uint32_t i;
+	
 	mx->data=malloc(mx->header.height*sizeof(double*));
 	if(mx->data){
 		for(i=0;i<mx->header.height;i++){
@@ -26,7 +27,7 @@ int readmatrix(FILE* infile, _MATRIX* mx){
 	
 	fread(&mx->header,sizeof(MATRIX_HEADER),1,infile);
 	
-	if(memcmp(mx->header.sig,"MATRIX\0\0",8)){
+	if(memcmp(mx->header.sig,MATRIX_MAGIC,8)){
 		return ERR_NOTAMATRIX;
 	}
 	
@@ -36,6 +37,17 @@ int readmatrix(FILE* infile, _MATRIX* mx){
 	
 	for(i=0;i<mx->header.height;i++){
 		fread(mx->data[i],sizeof(double),mx->header.width,infile);
+	}
+	
+	return ERR_OK;
+}
+
+int writematrix(FILE* out, _MATRIX* mx){
+	uint32_t i;
+	
+	fwrite(&(mx->header),sizeof(MATRIX_HEADER),1,out);
+	for(i=0;i<mx->header.height;i++){
+		fwrite(mx->data[i],sizeof(double),mx->header.width,out);
 	}
 	
 	return ERR_OK;
