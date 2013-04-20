@@ -19,74 +19,44 @@
 	Inversecalculator by null_ptr
 */
 #include "vectors.h"
-
+#include "runtime.hpp"
 #include "cppmatrix.hpp"
 #include <iostream>
-#include <fstream>
-#include <exception>
-#include <string.h>
 
-void announce_yourself()
+DECLARE_MAIN();
+
+void announce_yourself(std::ostream& output)
 {
-	std::cout << "Inverse" << std::endl;
-	std::cout << std::endl;
-	std::cout << "This is a inverse calculator for cbdev matrix format." << std::endl;
-	std::cout << "Usage:" << std::endl;
-	std::cout << "Reads from stdin and writes to stdout" << std::endl;
+	output << "Inverse calculator for cbdev matrix format." << std::endl;
+	output << std::endl;
+	output << "Usage:" << std::endl;
+	output << "inverse [<FILE>]" << std::endl;
+	output << "Reads from stdin or and writes inversed matrix" << std::endl;
+	output << "to stdout" << std::endl;
 }
-void announce_version()
+void announce_version(std::ostream& output)
 {
-	std::cout << "Inverse 0.0.1 Alpha bugless" << std::endl;
+	output << "Inverse 0.0.2 Alpha special edition" << std::endl;
 }
 
-int main(int argc, char** argv)
+int do_calculation(std::istream& input, std::ostream& output)
 {
-	std::istream* input = &std::cin;
-	std::ifstream ifs;
-	std::ostream* output = &std::cout;
-
-	if(argc > 1)
+	cppmatrix matrix;
+	input >> matrix;
+	if(!matrix.is_valid())
 	{
-		// TODO: More beer err... flags
-		if(!strcmp(argv[1], "-h"))
-		{
-			announce_yourself();
-			return 0;
-		}
-		else if(!strcmp(argv[1], "-v"))
-		{
-			announce_version();
-			return 0;
-		}
-		else
-		{
-			ifs.open(argv[1],std::ifstream::in);
-			input=&ifs;
-		}
+		return ERR_NOTAMATRIX;
 	}
-	try
+	if(!matrix.is_square())
 	{
-		input->exceptions(std::ios_base::badbit | std::ios_base::failbit | std::ios_base::eofbit);
-		output->exceptions(std::ios_base::badbit | std::ios_base::failbit | std::ios_base::eofbit);
-		
-		cppmatrix matrix;
-
-		(*input) >> matrix;
-
-		if(!matrix.is_square())
-		{
-			return NOSQMATRIX;
-		}
-
-		if(!matrix.invert())
-		{
-			return NOINVFOUND;
-		}
-
-		(*output) << matrix;
+		return NOSQMATRIX;
 	}
-	catch(std::ios_base::failure exc)
+
+	if(!matrix.invert())
 	{
-		return IOERR;
+		return NOINVFOUND;
 	}
+	output << matrix;
+
+	return 0;
 }

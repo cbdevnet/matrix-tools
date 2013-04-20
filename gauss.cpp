@@ -20,64 +20,36 @@
 */
 #include "vectors.h"
 #include "cppmatrix.hpp"
-
+#include "runtime.hpp"
 #include <iostream>
-#include <fstream>
-#include <exception>
-#include <cstring>
 
-void announce_yourself()
+DECLARE_MAIN();
+
+void announce_yourself(std::ostream& output)
 {
-	std::cout << "Gausscalculator" << std::endl;
-	std::cout << std::endl;
-	std::cout << "This is a gauss calculator for cbdev matrix format." << std::endl;
-	std::cout << "Usage:" << std::endl;
-	std::cout << "Reads from stdin and writes to stdout" << std::endl;
+	output << "Gauss calculator for cbdev matrix format." << std::endl;
+	output << std::endl;
+	output << "Usage:" << std::endl;
+	output << "gauss [<FILE>]" << std::endl;
+	output << "Reads from stdin or file and writes gaussed matrix" << std::endl;
+	output << "to stdout" << std::endl;
 }
-void announce_version()
+void announce_version(std::ostream& output)
 {
-	std::cout << "Gausscalculator 0.0.1 Alpha bugless" << std::endl;
+	output << "Gausscalculator 0.0.2 Alpha without cookies" << std::endl;
 }
-
-int main(int argc, char** argv)
+int do_calculation(std::istream& input, std::ostream& output)
 {
-	std::istream* input = &std::cin;
-	std::ifstream ifs;
-	std::ostream* output = &std::cout;
+	cppmatrix matrix;
+	input >> matrix;
 
-	if(argc > 1)
+	if(!matrix.is_valid())
 	{
-		// TODO: More beer err... flags
-		if(!strcmp(argv[1], "-h"))
-		{
-			announce_yourself();
-			return 0;
-		}
-		else if(!strcmp(argv[1], "-v"))
-		{
-			announce_version();
-			return 0;
-		}
-		else
-		{
-			ifs.open(argv[1],std::ifstream::in);
-			input=&ifs;
-		}
+		return ERR_NOTAMATRIX;
 	}
-	try
-	{
-		input->exceptions(std::ios_base::badbit | std::ios_base::failbit | std::ios_base::eofbit);
-		output->exceptions(std::ios_base::badbit | std::ios_base::failbit | std::ios_base::eofbit);
+	
+	matrix.gauss();
 
-		cppmatrix matrix;
-		(*input) >> matrix;
-		
-		matrix.gauss();
-
-		(*output) << matrix;
-	}
-	catch(std::ios_base::failure exc)
-	{
-		return IOERR;
-	}
+	output << matrix;
+	return 0;
 }
