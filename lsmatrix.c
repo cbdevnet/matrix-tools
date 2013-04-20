@@ -12,8 +12,6 @@ int usage(){
 
 int main(int argc, char** argv){
 	FILE* in;
-	char buf[2048];
-	double* row;
 	_MATRIX mx;
 	uint32_t i;
 	uint32_t c;
