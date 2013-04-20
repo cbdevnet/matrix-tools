@@ -3,7 +3,7 @@
 #include <string.h>
 #include <malloc.h>
 
-#include "vectors.h"
+#include "vectors.c"
 
 int usage(){
 	printf("lsmatrix Utility\n");
@@ -35,28 +35,17 @@ int main(int argc, char** argv){
 		exit(9003);
 	}
 	
-	fread(&mx.header,sizeof(MATRIX_HEADER),1,in);
-	
-	if(memcmp(mx.header.sig,"MATRIX\0\0",8)){
-		fclose(in);
-		printf("Not a matrix.");
-		exit(90012);
-	}
-	
-	row=malloc(mx.header.width*sizeof(double));
-	if(!row){
-		printf("Out of memory.");
-		exit(9013);
+	if(readmatrix(in,&mx)!=ERR_OK){
+		printf("Failed.");
 	}
 	
 	for(i=0;i<mx.header.height;i++){
-		fread(row,sizeof(double),mx.header.width,in);
 		for(c=0;c<mx.header.width;c++){
-			printf("%0.3lf ",row[c]);
+			printf("%0.3lf ",mx.data[i][c]);
 		}
 		printf("\n");
 	}
+	freematrix(&mx);
 	
-	free(row);
 	fclose(in);
 }

@@ -9,9 +9,10 @@ typedef struct /*_MATRIX_HEADER*/{
 } MATRIX_HEADER;
 
 typedef struct /*__MATRIX*/ {
-	char* name;
 	MATRIX_HEADER header;
 	double** data;
 } _MATRIX;
 
-//TODO standardize error/exitcodes
+#define ERR_OUTOFMEM 9004
+#define ERR_NOTAMATRIX 9003
+#define ERR_OK 0

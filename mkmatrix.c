@@ -13,7 +13,7 @@ int main(int argc, char** argv){
 	char buf[2048];
 	_MATRIX mx;
 	memcpy(mx.header.sig,"MATRIX\0\0",8);
-	mx.name=NULL;
+	char* matrixName=NULL;
 	mx.data=NULL;
 	unsigned long i=0;
 	unsigned long c=0;
@@ -25,16 +25,16 @@ int main(int argc, char** argv){
 			exit(usage());
 		}
 		else{
-			mx.name=argv[1];
+			matrixName=argv[1];
 			usearg=true;
 		}
 	}
 	else{
 		printf("Enter name of matrix: ");
 		if(fgets(buf,sizeof(buf)-1,stdin)){
-			mx.name=malloc((strlen(buf)+1)*sizeof(char));
-			if(mx.name){
-				strncpy(mx.name,buf,strlen(buf)-1);
+			matrixName=malloc((strlen(buf)+1)*sizeof(char));
+			if(matrixName){
+				strncpy(matrixName,buf,strlen(buf)-1);
 			}
 			else{
 				printf("Out of memory.");
@@ -47,13 +47,13 @@ int main(int argc, char** argv){
 		}
 	}
 	
-	out=fopen(mx.name,"w");
+	out=fopen(matrixName,"w");
 	if(!out){
 		printf("No write access.");
 		exit(9012);
 	}
 
-	printf("Width of Matrix %s: ",mx.name);
+	printf("Width of Matrix %s: ",matrixName);
 	if(fgets(buf,sizeof(buf)-1,stdin)){
 		mx.header.width=strtoul(buf,NULL,10);
 	}
@@ -62,7 +62,7 @@ int main(int argc, char** argv){
 		exit(90010);
 	}
 	
-	printf("Height of Matrix %s: ",mx.name);
+	printf("Height of Matrix %s: ",matrixName);
 	if(fgets(buf,sizeof(buf)-1,stdin)){
 		mx.header.height=strtoul(buf,NULL,10);
 	}
@@ -76,7 +76,7 @@ int main(int argc, char** argv){
 		exit(9003);
 	}
 	
-	printf("Creating data fields for %s [%dx%d]\n",mx.name,mx.header.width,mx.header.height);
+	printf("Creating data fields for %s [%dx%d]\n",matrixName,mx.header.width,mx.header.height);
 	
 	mx.data=malloc(mx.header.height*sizeof(double*));
 	if(mx.data){
@@ -97,7 +97,7 @@ int main(int argc, char** argv){
 	//TODO row mode
 	for(i=0;i<mx.header.height;i++){
 		for(c=0;c<mx.header.width;c++){
-			printf("%s[%d][%d]=",mx.name,i,c);
+			printf("%s[%d][%d]=",matrixName,i,c);
 			if(fgets(buf,sizeof(buf)-1,stdin)){
 				mx.data[i][c]=strtof(buf,NULL);
 			}
@@ -117,7 +117,7 @@ int main(int argc, char** argv){
 	//cleanup
 	fclose(out);
 	if(!usearg){
-		free(mx.name);
+		free(matrixName);
 	}
 	
 	for(i=0;i<mx.header.height;i++){
