@@ -33,8 +33,21 @@ int main(int argc, char** argv){
 		exit(9003);
 	}
 	
-	if(readmatrix(in,&mx)!=ERR_OK){
-		printf("Failed.");
+	switch(readmatrix(in,&mx)){
+		case ERR_OUTOFMEM:
+			printf("Out of mem.");
+			exit(ERR_OUTOFMEM);
+		
+		case ERR_NOTAMATRIX:
+			printf("Not a Matrix");
+			exit(ERR_NOTAMATRIX);
+		
+		case ERR_OK:
+			break;
+		
+		default:
+			printf("Bad things are happening");
+			exit(9000);
 	}
 	
 	for(i=0;i<mx.header.height;i++){
