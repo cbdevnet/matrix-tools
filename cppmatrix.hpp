@@ -24,9 +24,9 @@
 #include <stdint.h>
 #include <cstring>
 #include <iostream>
+#include <exception>
 
 typedef uint32_t mat_size_t;
-const int IOERR = 42;
 const int NOSQMATRIX = 43;
 const int NOINVFOUND = 44;
 const double EPSILON = 0.000000000000001;
@@ -119,6 +119,14 @@ public:
 		}
 	}
 
+	mat_size_t height() { return matrix.header.height; }
+	mat_size_t width() { return matrix.header.width; }
+
+	double * const operator[] (mat_size_t index)
+	{
+		return matrix.data[index];
+	}
+
 	void gauss()
 	{
 		// The interesting part
@@ -198,7 +206,7 @@ public:
 	
 	bool is_valid()
 	{
-		return !(memcmp(matrix.header.sig, MATRIX_MAGIC, sizeof(MATRIX_MAGIC)));
+		return !(memcmp(matrix.header.sig, MATRIX_MAGIC, sizeof(MATRIX_MAGIC)-1));
 	}
 private:
 	void shift_zeros_down()
