@@ -13,13 +13,13 @@ int usage(){
 int main(int argc, char** argv){
 	char buf[2048];
 	_MATRIX mx;
-	memcpy(mx.header.sig,"MATRIX\0\0",8);
 	char* matrixName=NULL;
-	mx.data=NULL;
 	unsigned long i=0;
 	unsigned long c=0;
-	bool usearg=false;
 	FILE* out;
+	
+	mx.data=NULL;
+	memcpy(mx.header.sig,MATRIX_MAGIC,8);
 	
 	if(argc>1){
 		if(argv[1][0]=='-'){
@@ -27,7 +27,6 @@ int main(int argc, char** argv){
 		}
 		else{
 			matrixName=argv[1];
-			usearg=true;
 		}
 	}
 	else{
@@ -104,9 +103,6 @@ int main(int argc, char** argv){
 	
 	//cleanup
 	fclose(out);
-	if(!usearg){
-		free(matrixName);
-	}
 	
 	freematrix(&mx);
 	return 0;
