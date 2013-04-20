@@ -5,7 +5,7 @@
 
 #include "vectors.c"
 
-double det(_MATRIX mx);
+double det(_MATRIX);
 
 int usage(){
 	printf("determinant Utility\n");
@@ -64,7 +64,7 @@ double det(_MATRIX mx) {
 	
     _MATRIX new_mx;
     
-	memcpy(new_mx.header.sig,"MATRIX\0\0",8);
+	memcpy(new_mx.header.sig,MATRIX_MAGIC,8);
     new_mx.header.height = mx.header.height - 1;
     new_mx.header.width = mx.header.width - 1;
 
