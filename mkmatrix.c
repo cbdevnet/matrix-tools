@@ -88,7 +88,7 @@ int main(int argc, char** argv){
 		for(c=0;c<mx.header.width;c++){
 			printf("%s[%ld][%ld]=",matrixName,i,c);
 			if(fgets(buf,sizeof(buf)-1,stdin)){
-				mx.data[i][c]=strtof(buf,NULL);
+				mx.data[i][c]=strtod(buf,NULL);
 			}
 			else{
 				printf("Error reading.");

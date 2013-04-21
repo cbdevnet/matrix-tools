@@ -85,13 +85,9 @@ double det(_MATRIX mx) {
             }
         }
         if (i % 2 == 0) {
-            if (mx.data[i][0] != 0) {
-                determinant += mx.data[i][0] * det(new_mx);
-            }
+            determinant += mx.data[i][0] * det(new_mx);
         } else {
-            if (mx.data[i][0] != 0) {
-                determinant -= mx.data[i][0] * det(new_mx);
-            }
+            determinant -= mx.data[i][0] * det(new_mx);
         }
     }
     
